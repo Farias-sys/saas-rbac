@@ -5,12 +5,17 @@
     "main": "index.ts",
     "types": "index.ts",
     "devDependencies": {
-        "@saas/prettier":"*",
-        "@saas/eslint-config":"*",
-        "@saas/typescript-config":"*"
+        "@saas/eslint-config": "*",
+        "@saas/prettier": "*",
+        "@saas/typescript-config": "*"
     },
     "eslintConfig": {
-        "extends": ["@saas/eslint-config/library"]
+        "extends": [
+            "@saas/eslint-config/library"
+        ]
     },
-    "prettier":"@saas/prettier"
+    "prettier": "@saas/prettier",
+    "dependencies": {
+        "@casl/ability": "^6.7.1"
+    }
 }
