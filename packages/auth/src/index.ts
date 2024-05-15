@@ -9,8 +9,25 @@ import { User } from './models/user'
 import { permissions } from './permissions'
 import { UserSubject } from './subjects/user'
 import { ProjectSubject } from './subjects/project'
+import { OrganizationSubject } from './subjects/organization'
+import {InviteSubject} from './subjects/invite'
+import {BillingSubject} from './subjects/billing'
+import {z} from 'zod'
 
-type AppAbilities = UserSubject | ProjectSubject | ['manage', 'all'] 
+
+const AppAbilitiesSchema = z.union([
+    ProjectSubject,
+    UserSubject,
+    OrganizationSubject,
+    InviteSubject,
+    BillingSubject,
+    z.tuple([
+        z.literal('manage'),
+        z.literal('all')
+    ])
+])
+
+type AppAbilities = z.infer<typeof AppAbilitiesSchema> 
 
 export type AppAbility = MongoAbility<AppAbilities>
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
