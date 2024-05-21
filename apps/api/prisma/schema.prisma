@@ -77,7 +77,7 @@ model Invite {
   createdAt DateTime @default(now()) @map("created_at")
   userId    String?  @map("user_id")
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String       @map("organization_id")
 
   @@unique([email, organizationId])
@@ -89,7 +89,7 @@ model Member {
   id   String @id @default(uuid())
   role Role   @default(MEMBER)
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String       @map("organization_id")
 
   user   User   @relation(fields: [userId], references: [id])
@@ -101,7 +101,7 @@ model Member {
 
 model Organization {
   id                        String   @id @default(uuid())
-  owner                     User     @relation(fields: [userId], references: [id])
+  owner                     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   name                      String
   slug                      String   @unique
   domain                    String?  @unique
@@ -110,10 +110,10 @@ model Organization {
   createdAt                 DateTime @default(now()) @map("created_at")
   updatedAt                 DateTime @updatedAt @map("updated_at")
 
-  invites Invite[]
-  members Member[]
-  userId  String    @map("user_id")
-  Project Project[]
+  invites  Invite[]
+  members  Member[]
+  ownerId  String    @map("owner_id")
+  projects Project[]
 
   @@map("organizations")
 }
@@ -127,10 +127,10 @@ model Project {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  owner  User   @relation(fields: [userId], references: [id])
-  userId String @map("user_id")
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @map("owner_id")
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String       @map("organization_id")
 
   @@map("projects")
