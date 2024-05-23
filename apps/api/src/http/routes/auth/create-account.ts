@@ -8,6 +8,8 @@ import {hash} from 'bcryptjs'
 export async function createAccount(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>().post('/users',{
         schema: {
+            tags: ['auth'],
+            summary: 'Create new account',
             body: z.object({
                 name: z.string(),
                 email: z.string().email(),

@@ -1,5 +1,8 @@
 import {fastify} from 'fastify';
 import fastifyCors from '@fastify/cors';
+import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUI from '@fastify/swagger-ui';
+
 
 import {
     jsonSchemaTransform,
@@ -14,6 +17,22 @@ const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
 app.register(fastifyCors);
+
+app.register(fastifySwagger, {
+    openapi: {
+        info: {
+        title: 'RBAC SaaS API',
+        description: 'API developed in Rocketseat Training',
+        version: '1.0.0',
+        },
+        servers: [],
+    },
+    transform: jsonSchemaTransform,
+});
+
+app.register(fastifySwaggerUI, {
+routePrefix: '/docs',
+});
 
 app.register(createAccount)
 
