@@ -12,11 +12,13 @@ import {
 } from 'fastify-type-provider-zod';
 import { createAccount } from './routes/auth/create-account';
 import { authenticateWithPassword } from './routes/auth/authenticate-with-password';
+import { errorHandler } from './routes/error-handler';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
+app.setErrorHandler(errorHandler);
 app.register(fastifyCors);
 
 app.register(fastifySwagger, {

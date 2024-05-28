@@ -3,6 +3,7 @@ import type {ZodTypeProvider} from 'fastify-type-provider-zod';
 import { z } from 'zod';
 import {prisma} from '../../../lib/prisma'
 import { hash } from 'bcryptjs';
+import { BadRequestError } from '../_errors/bad-request-error';
 
 
 export async function authenticateWithPassword(app: FastifyInstance){
@@ -37,7 +38,7 @@ export async function authenticateWithPassword(app: FastifyInstance){
         })
 
         if(!user){
-            throw new Error('User not found')
+            throw new BadRequestError('User not found')
         }
 
         return reply.status(200).send({user})
