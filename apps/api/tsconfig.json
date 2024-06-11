@@ -1,0 +1,9 @@
+{
+    "include": ["scr/**/*", "@types/*.d.ts"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*":["./src/*"]
+        }
+    }
+}

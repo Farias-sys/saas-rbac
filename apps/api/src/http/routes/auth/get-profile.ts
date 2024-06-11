@@ -4,10 +4,11 @@ import { z } from 'zod';
 import {prisma} from '../../../lib/prisma'
 import { hash } from 'bcryptjs';
 import { BadRequestError } from '../_errors/bad-request-error';
+import { auth } from '../../middlewares/auth';
 
 
 export async function authenticateWithPassword(app: FastifyInstance){
-    app.withTypeProvider<ZodTypeProvider>().post('/profile', {
+    app.withTypeProvider<ZodTypeProvider>().register(auth).post('/profile', {
         schema: {
             tags: ['auth'],
             summary: 'Get authenticated user profile',
@@ -24,7 +25,7 @@ export async function authenticateWithPassword(app: FastifyInstance){
         }
     },
     async (request, reply) => {
-        const {sub} = await request.jwtVerify<{sub:string}>();
+        const {sub} = await request.getCurrentUserId();
         const user = await prisma.user.findUnique({
             select: {
                 id: true,
