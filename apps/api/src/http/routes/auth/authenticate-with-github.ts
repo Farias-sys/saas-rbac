@@ -5,6 +5,7 @@ import {prisma} from '../../../lib/prisma'
 import { hash } from 'bcryptjs';
 import { access } from 'fs';
 import { BadRequestError } from "../_errors/bad-request-error";
+import { env } from '../../../../../../packages/env';
 
 
 export async function authenticateWithGithub(app: FastifyInstance){
@@ -29,9 +30,9 @@ export async function authenticateWithGithub(app: FastifyInstance){
                 'https://github.com/login/oauth/access_token'
             );
 
-            githubOAuthURL.searchParams.set('client_id', 'Ov23liRmuFb8VtOcP99T');
-            githubOAuthURL.searchParams.set('client_secret', '5ccac45a8067fc44ba54df738c5c18800d65c3aa');
-            githubOAuthURL.searchParams.set('redirect_uri', 'http://localhost:5000/api/auth/callback');
+            githubOAuthURL.searchParams.set('client_id', env.GITHUB_OAUTH_CLIENT_ID);
+            githubOAuthURL.searchParams.set('client_secret', env.GITHUB_OAUTH_CLIENT_SECRET);
+            githubOAuthURL.searchParams.set('redirect_uri', env.GITHUB_OAUTH_CLIENT_REDIRECT_URL);
             githubOAuthURL.searchParams.set('code', code);
 
             const githubAccessTokenResponse = await fetch(githubOAuthURL, {

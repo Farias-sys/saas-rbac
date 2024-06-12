@@ -15,6 +15,7 @@ import { authenticateWithPassword } from './routes/auth/authenticate-with-passwo
 import { errorHandler } from './routes/error-handler';
 import { requestPasswordRecover } from './routes/auth/request-password-recover';
 import { resetPassword } from './routes/auth/reset-password';
+import { env } from '../../../../packages/env';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -41,7 +42,7 @@ app.register(fastifySwaggerUI, {
 
 app.register(fastifyJwt,
     {
-        secret: 'veryveryveryverysafe'
+        secret: env.JWT_SECRET
     }
 )
 
@@ -50,6 +51,6 @@ app.register(authenticateWithPassword)
 app.register(requestPasswordRecover)
 app.register(resetPassword)
 
-app.listen({port:5000}).then(() => {
+app.listen({port:env.SERVER_PORT}).then(() => {
     console.log('HTTP Server Running')
 });
