@@ -27,11 +27,19 @@ app.register(fastifyCors);
 app.register(fastifySwagger, {
     openapi: {
         info: {
-        title: 'RBAC SaaS API',
-        description: 'API developed in Rocketseat Training',
-        version: '1.0.0',
+            title: 'RBAC SaaS API',
+            description: 'API developed in Rocketseat Training',
+            version: '1.0.0',
         },
-        servers: [],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            }
+        }
     },
     transform: jsonSchemaTransform,
 });
