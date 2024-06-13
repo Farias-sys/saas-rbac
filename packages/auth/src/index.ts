@@ -14,6 +14,7 @@ import {InviteSubject} from './subjects/invite'
 import {BillingSubject} from './subjects/billing'
 import {z} from 'zod'
 
+export * from './roles';
 
 const AppAbilitiesSchema = z.union([
     ProjectSubject,

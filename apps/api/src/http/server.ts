@@ -12,18 +12,20 @@ import {
 } from 'fastify-type-provider-zod';
 import { createAccount } from './routes/auth/create-account';
 import { authenticateWithPassword } from './routes/auth/authenticate-with-password';
+import {authenticateWithGithub} from './routes/auth/authenticate-with-github';
 import { errorHandler } from './routes/error-handler';
 import { requestPasswordRecover } from './routes/auth/request-password-recover';
 import { resetPassword } from './routes/auth/reset-password';
+import { getProfile } from './routes/auth/get-profile';
 import { env } from '../../../../packages/env';
 import { createOrganization } from './routes/orgs/create-organization';
+import { getMembership } from './routes/orgs/get-membership';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
 app.setErrorHandler(errorHandler);
-app.register(fastifyCors);
 
 app.register(fastifySwagger, {
     openapi: {
@@ -55,11 +57,16 @@ app.register(fastifyJwt,
     }
 )
 
-app.register(createAccount)
-app.register(authenticateWithPassword)
-app.register(requestPasswordRecover)
-app.register(resetPassword)
-app.register(createOrganization)
+app.register(fastifyCors);
+
+app.register(createAccount);
+app.register(authenticateWithPassword);
+app.register(authenticateWithGithub);
+app.register(requestPasswordRecover);
+app.register(getProfile);
+app.register(resetPassword);
+app.register(createOrganization);
+app.register(getMembership);
 
 app.listen({port:env.SERVER_PORT}).then(() => {
     console.log('HTTP Server Running')
