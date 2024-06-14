@@ -11,7 +11,7 @@ import { UnauthorizedError } from "../_errors/unauthorized-error";
 export async function updateProject(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .delete('/organizations/:slug/projects/:projectId', {
+    .put('/organizations/:slug/projects/:projectId', {
         schema: {
             tags: ['projects'],
             summary: 'Update a Project',
