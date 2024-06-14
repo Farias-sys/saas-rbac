@@ -20,6 +20,7 @@ import { getProfile } from './routes/auth/get-profile';
 import { env } from '../../../../packages/env';
 import { createOrganization } from './routes/orgs/create-organization';
 import { getMembership } from './routes/orgs/get-membership';
+import { getOrganization } from './routes/orgs/get-organization';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -67,6 +68,8 @@ app.register(getProfile);
 app.register(resetPassword);
 app.register(createOrganization);
 app.register(getMembership);
+app.register(getOrganization);
+app.register(getOrganizations);
 
 app.listen({port:env.SERVER_PORT}).then(() => {
     console.log('HTTP Server Running')

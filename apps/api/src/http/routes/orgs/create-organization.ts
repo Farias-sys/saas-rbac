@@ -9,7 +9,7 @@ import generateSlug from "../../../utils/create-slug";
 export async function createOrganization(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .post('/organization', {
+    .post('/organizations', {
         schema: {
             tags: ['organizations'],
             summary: 'Create a new Organization',
