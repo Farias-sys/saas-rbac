@@ -5,23 +5,21 @@ import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { getUserPermissions } from "../../../utils/get-user-permissions";
 import { UnauthorizedError } from "../_errors/unauthorized-error";
-import { BadRequestError } from "../_errors/bad-request-error";
 
-export async function getProject(app : FastifyInstance){
+export async function getProjects(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .get('/organizations/:orgSlug/projects/:projectSlug', {
+    .get('/organizations/:orgSlug/projects', {
         schema: {
             tags: ['projects'],
             summary: 'Create a new Project',
             security: [{bearerAuth:[]}],
             params: z.object({
-                orgSlug: z.string(),
-                projectSlug: z.string().uuid()
+                orgSlug: z.string()
             }),
             response: {
                 200: z.object({
-                    project: z.object({
+                    projects: z.array(z.object({
                         id: z.string().uuid(),
                         name: z.string(),
                         description: z.string(),
@@ -34,14 +32,14 @@ export async function getProject(app : FastifyInstance){
                             name: z.string().nullable(),
                             avatarUrl: z.string().nullable()
                         })
-                })
+                }))
             })
                     
             }
         }            
     },
         async (request, response) => {
-            const { orgSlug, projectSlug } = request.params;
+            const { orgSlug } = request.params;
 
             const userId = await request.getCurrentUserId();
             const { organization, membership } = await request.getUserMembership(orgSlug);
@@ -49,10 +47,10 @@ export async function getProject(app : FastifyInstance){
             const {cannot} = getUserPermissions(userId, membership.role);
 
             if(cannot('get', 'Project')){
-                throw new UnauthorizedError('You are not allowed to see this Project');
+                throw new UnauthorizedError('You are not allowed to see the projects of this organization');
             }
 
-            const project = await prisma.project.findUnique({
+            const projects = await prisma.project.findMany({
                 select: {
                     id: true,
                     name: true,
@@ -67,19 +65,18 @@ export async function getProject(app : FastifyInstance){
                             name: true,
                             avatarUrl: true
                         }
-                    }
+                    },
+                    createdAt: true
                 },
                 where: {
-                    slug: projectSlug,
                     organizationId: organization.id
+                },
+                orderBy: {
+                    createdAt: 'desc'
                 }
             })
 
-            if(!project){
-                throw new BadRequestError('Project not found')
-            }
-
-            return response.status(200).send({project : project})
+            return response.status(200).send({projects : projects})
 
         }
     )
