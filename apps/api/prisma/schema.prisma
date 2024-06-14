@@ -54,7 +54,7 @@ model Account {
   id                String          @id @default(uuid())
   provider          AccountProvider
   providerAccountId String          @unique @map("provider_account_id")
-  user              User            @relation(fields: [userId], references: [id])
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String          @map("user_id")
 
   @@unique([provider, userId])
@@ -72,7 +72,7 @@ model Invite {
   email String
   role  Role
 
-  author User? @relation(fields: [authorId], references: [id])
+  author User? @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now()) @map("created_at")
   authorId  String?  @map("author_id")
@@ -92,7 +92,7 @@ model Member {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String       @map("organization_id")
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   @@unique([organizationId, userId])
