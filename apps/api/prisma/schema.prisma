@@ -72,10 +72,10 @@ model Invite {
   email String
   role  Role
 
-  author User? @relation(fields: [userId], references: [id])
+  author User? @relation(fields: [authorId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
-  userId    String?  @map("user_id")
+  authorId  String?  @map("author_id")
 
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String       @map("organization_id")
