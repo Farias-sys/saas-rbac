@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { auth } from "../../middlewares/auth";
 import { z } from "zod";
-import { RoleSchema } from "../../../../../../packages/auth/src";
+import { RoleSchema } from "@saas/auth";
 
 export async function getMembership(app: FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()

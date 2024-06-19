@@ -1,4 +1,4 @@
-import { defineAbilityFor, Role } from "../../../../packages/auth/src";
+import { defineAbilityFor, Role } from "@saas/auth";
 import { UserSchema } from "../../../../packages/auth/src/models/user";
 
 export function getUserPermissions(userId: string, role: Role){

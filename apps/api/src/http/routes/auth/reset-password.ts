@@ -1,6 +1,4 @@
-import { auth } from "../../middlewares/auth";
 import { prisma } from "../../../lib/prisma";
-import { BadRequestError } from "../_errors/bad-request-error";
 import { FastifyInstance } from "fastify/types/instance";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";

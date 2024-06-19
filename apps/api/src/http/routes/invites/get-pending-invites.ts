@@ -4,7 +4,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { BadRequestError } from "../_errors/bad-request-error";
-import { RoleSchema } from "../../../../../../packages/auth/src";
+import { RoleSchema } from "@saas/auth";
 
 export async function getPendingInvites(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()

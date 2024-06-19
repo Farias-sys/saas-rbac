@@ -2,26 +2,28 @@ import {
     AbilityBuilder,
     CreateAbility,
     createMongoAbility,
-    ForcedSubject,
     MongoAbility
 } from '@casl/ability'
 import { User } from './models/user'
 import { permissions } from './permissions'
-import { UserSubject } from './subjects/user'
-import { ProjectSubject } from './subjects/project'
-import { OrganizationSubject } from './subjects/organization'
-import {InviteSubject} from './subjects/invite'
-import {BillingSubject} from './subjects/billing'
+import { userSubject } from './subjects/user'
+import { projectSubject } from './subjects/project'
+import { organizationSubject } from './subjects/organization'
+import {inviteSubject} from './subjects/invite'
+import {billingSubject} from './subjects/billing'
 import {z} from 'zod'
 
 export * from './roles';
+export * from './models/organization';
+export * from './models/project';
+export * from './models/user';
 
 const AppAbilitiesSchema = z.union([
-    ProjectSubject,
-    UserSubject,
-    OrganizationSubject,
-    InviteSubject,
-    BillingSubject,
+    projectSubject,
+    userSubject,
+    organizationSubject,
+    inviteSubject,
+    billingSubject,
     z.tuple([
         z.literal('manage'),
         z.literal('all')

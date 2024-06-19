@@ -5,22 +5,18 @@ import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { getUserPermissions } from "../../../utils/get-user-permissions";
 import { UnauthorizedError } from "../_errors/unauthorized-error";
-import { RoleSchema } from "../../../../../../packages/auth/src";
+import { RoleSchema } from "@saas/auth";
 
 export async function getInvites(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .post('/organizations/:slug/invites', {
+    .get('/organizations/:slug/invites', {
         schema: {
             tags: ['invites'],
             summary: 'Get a list of invites of an organization',
             security: [{bearerAuth:[]}],
             params: z.object({
                 slug: z.string()
-            }),
-            body: z.object({
-                email: z.string().email(),
-                role: RoleSchema
             }),
             response: {
                 200: z.object({

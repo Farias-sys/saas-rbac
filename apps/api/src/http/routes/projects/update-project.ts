@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify/types/instance";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
-import { ProjectSchema } from "../../../../../../packages/auth/src/models/project";
+import { ProjectSchema } from "@saas/auth";
 import { BadRequestError } from "../_errors/bad-request-error";
 import { getUserPermissions } from "../../../utils/get-user-permissions";
 import { UnauthorizedError } from "../_errors/unauthorized-error";

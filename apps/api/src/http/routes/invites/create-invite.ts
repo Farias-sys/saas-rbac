@@ -5,7 +5,7 @@ import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { getUserPermissions } from "../../../utils/get-user-permissions";
 import { UnauthorizedError } from "../_errors/unauthorized-error";
-import { RoleSchema } from "../../../../../../packages/auth/src";
+import { RoleSchema } from "@saas/auth";
 import { BadRequestError } from "../_errors/bad-request-error";
 
 export async function createInvite(app : FastifyInstance){

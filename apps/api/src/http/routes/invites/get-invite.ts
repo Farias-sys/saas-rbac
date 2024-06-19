@@ -1,9 +1,8 @@
-import {auth} from "../../middlewares/auth"
 import { FastifyInstance } from "fastify/types/instance";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
-import { RoleSchema } from "../../../../../../packages/auth/src";
+import { RoleSchema } from "@saas/auth";
 import { BadRequestError } from "../_errors/bad-request-error";
 
 export async function getInvite(app : FastifyInstance){
@@ -14,10 +13,6 @@ export async function getInvite(app : FastifyInstance){
             summary: 'Get a Invite details',
             params: z.object({
                 inviteId: z.string().uuid()
-            }),
-            body: z.object({
-                email: z.string().email(),
-                role: RoleSchema
             }),
             response: {
                 200: z.object({

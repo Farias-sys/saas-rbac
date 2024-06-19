@@ -5,7 +5,7 @@ import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { getUserPermissions } from "../../../utils/get-user-permissions";
 import { UnauthorizedError } from "../_errors/unauthorized-error";
-import { RoleSchema } from "../../../../../../packages/auth/src";
+import { RoleSchema } from "@saas/auth";
 
 export async function updateMember(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()

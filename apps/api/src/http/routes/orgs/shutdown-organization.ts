@@ -3,15 +3,14 @@ import { FastifyInstance } from "fastify/types/instance";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
-import { BadRequestError } from "../_errors/bad-request-error";
-import { OrganizationSchema } from "../../../../../../packages/auth/src/models/organization";
+import { OrganizationSchema } from "@saas/auth";
 import { UnauthorizedError } from "../_errors/unauthorized-error";
 import { getUserPermissions } from "../../../utils/get-user-permissions";
 
 export async function shutdownOrganization(app : FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .post('/organizations/:slug', {
+    .delete('/organizations/:slug', {
         schema: {
             tags: ['organizations'],
             summary: 'Shutdown a organization',
