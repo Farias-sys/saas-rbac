@@ -7,7 +7,7 @@ import { auth } from '../../middlewares/auth';
 
 
 export async function getProfile(app: FastifyInstance){
-    app.withTypeProvider<ZodTypeProvider>().register(auth).post('/profile', {
+    app.withTypeProvider<ZodTypeProvider>().register(auth).get('/profile', {
         schema: {
             tags: ['auth'],
             summary: 'Get authenticated user profile',
